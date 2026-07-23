@@ -1,0 +1,40 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "joyvasa"
+version = "0.1.0"
+description = "JoyVASA: Portrait and Animal Image Animation with Diffusion-Based Audio-Driven Facial Dynamics"
+requires-python = ">=3.10"
+dependencies = [
+    "torch>=2.0",
+    "torchvision",
+    "torchaudio",
+    "numpy",
+    "opencv-python",
+    "Pillow",
+    "imageio",
+    "imageio-ffmpeg",
+    "scipy",
+    "transformers",
+    "safetensors",
+    "onnxruntime-gpu",
+    "tyro",
+    "tqdm",
+    "einops",
+    "pyyaml",
+]
+
+[project.scripts]
+generate-joyvasa = "generate_joyvasa:main"
+
+[tool.setuptools]
+py-modules = ["generate_joyvasa", "inference"]
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["src*"]
+
+[tool.setuptools.package-data]
+"*" = ["*.yaml", "*.yml", "*.json", "*.onnx"]
