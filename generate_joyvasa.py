@@ -40,7 +40,7 @@ from src.config.crop_config import CropConfig
 # --------------------------------------------------------------------------- #
 _INFERENCE_CKPT_LAYOUT = {
     "checkpoint_MotionGenerator": "JoyVASA/motion_generator/motion_generator_hubert_chinese.pt",
-    "checkpoint_AudioEncoder": "hubert-base-ls960",
+    "checkpoint_AudioEncoder": "chinese-hubert-base",
     "motion_template_path": "JoyVASA/motion_template/motion_template.pkl",
     "checkpoint_F": "liveportrait/base_models/appearance_feature_extractor.pth",
     "checkpoint_M": "liveportrait/base_models/motion_extractor.pth",

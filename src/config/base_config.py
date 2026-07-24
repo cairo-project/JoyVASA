@@ -11,6 +11,8 @@ from typing import Tuple
 
 
 def make_abs_path(fn):
+    if osp.isabs(fn):
+        return fn
     # return osp.join(osp.dirname(osp.realpath(__file__)), fn)
     return osp.abspath(osp.join(osp.dirname(osp.realpath(__file__)), fn))
     # return osp.abspath(osp.join(os.getcwd(), fn))

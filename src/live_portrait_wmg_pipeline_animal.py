@@ -32,6 +32,8 @@ from .live_portrait_wmg_wrapper import LivePortraitWrapperAnimal
 
 
 def make_abs_path(fn):
+    if osp.isabs(fn):
+        return fn
     return osp.join(osp.dirname(osp.realpath(__file__)), fn)
 
 class LivePortraitPipelineAnimal(object):

@@ -27,6 +27,8 @@ from .utils.viz import viz_lmk, plot_3d_scatter, plot_vectors, plot_vector_pairs
 from .live_portrait_wmg_wrapper import LivePortraitWrapper
 
 def make_abs_path(fn):
+    if osp.isabs(fn):
+        return fn
     return osp.join(osp.dirname(osp.realpath(__file__)), fn)
 
 class LivePortraitPipeline(object):
