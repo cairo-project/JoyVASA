@@ -94,13 +94,13 @@ class DitTalkingHead(nn.Module):
             self.audio_encoder.feature_extractor._freeze_parameters()
         elif self.audio_model == 'hubert': # 根据经验，hubert特征提取器效果更好
             from .hubert import HubertModel
-            self.audio_encoder = HubertModel.from_pretrained(_resolve_weights_path('../../pretrained_weights/hubert-base-ls960'))
+            self.audio_encoder = HubertModel.from_pretrained(_resolve_weights_path('../../pretrained_weights/hubert-base-ls960'), attn_implementation='eager')
             self.audio_encoder.feature_extractor._freeze_parameters()
         elif self.audio_model == 'hubert_zh_ori' or self.audio_model == 'hubert_zh': # 根据经验，hubert特征提取器效果更好
             print("using hubert chinese ori")
             model_path = '../../pretrained_weights/chinese-hubert-base'
             from .hubert import HubertModel
-            self.audio_encoder = HubertModel.from_pretrained(_resolve_weights_path(model_path))
+            self.audio_encoder = HubertModel.from_pretrained(_resolve_weights_path(model_path), attn_implementation='eager')
             self.audio_encoder.feature_extractor._freeze_parameters()
         else:
             raise ValueError(f'Unknown audio model {self.audio_model}!')
