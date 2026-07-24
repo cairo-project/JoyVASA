@@ -37,4 +37,4 @@ where = ["."]
 include = ["src*"]
 
 [tool.setuptools.package-data]
-"*" = ["*.yaml", "*.yml", "*.json", "*.onnx", "*.pkl", "*.npy"]
+"*" = ["*.yaml", "*.yml", "*.json", "*.onnx", "*.pkl", "*.npy", "*.png"]
