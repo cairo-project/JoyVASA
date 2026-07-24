@@ -130,6 +130,9 @@ def load_models(pretrained_weights_dir, device="cuda", animation_mode="human", *
             f"pretrained_weights_dir not found: {pretrained_weights_dir}"
         )
 
+    # Set env var so that DitTalkingHead can resolve audio encoder paths
+    os.environ["JOYVASA_WEIGHTS_DIR"] = pretrained_weights_dir
+
     inference_cfg = InferenceConfig()
     crop_cfg = CropConfig()
 

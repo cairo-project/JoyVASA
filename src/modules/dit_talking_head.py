@@ -2,9 +2,21 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 import platform
+import os
+import os.path as osp
 
 from .common import PositionalEncoding, enc_dec_mask, pad_audio
 from ..config.base_config import make_abs_path
+
+
+def _resolve_weights_path(rel_path):
+    """Resolve a pretrained weights path. Uses JOYVASA_WEIGHTS_DIR env var if set."""
+    weights_dir = os.environ.get("JOYVASA_WEIGHTS_DIR")
+    if weights_dir:
+        parts = rel_path.replace("\\", "/").split("pretrained_weights/")
+        if len(parts) > 1:
+            return osp.join(weights_dir, parts[-1])
+    return make_abs_path(rel_path)
 
 
 class DiffusionSchedule(nn.Module):
@@ -78,19 +90,17 @@ class DitTalkingHead(nn.Module):
         if self.audio_model == 'wav2vec2':
             print("using wav2vec2 audio encoder ...")
             from .wav2vec2 import Wav2Vec2Model
-            self.audio_encoder = Wav2Vec2Model.from_pretrained(make_abs_path('../../pretrained_weights/wav2vec2-base-960h'))
+            self.audio_encoder = Wav2Vec2Model.from_pretrained(_resolve_weights_path('../../pretrained_weights/wav2vec2-base-960h'))
             self.audio_encoder.feature_extractor._freeze_parameters()
         elif self.audio_model == 'hubert': # 根据经验，hubert特征提取器效果更好
             from .hubert import HubertModel
-            self.audio_encoder = HubertModel.from_pretrained(make_abs_path('../../pretrained_weights/hubert-base-ls960'))
+            self.audio_encoder = HubertModel.from_pretrained(_resolve_weights_path('../../pretrained_weights/hubert-base-ls960'))
             self.audio_encoder.feature_extractor._freeze_parameters()
         elif self.audio_model == 'hubert_zh_ori' or self.audio_model == 'hubert_zh': # 根据经验，hubert特征提取器效果更好
             print("using hubert chinese ori")
-            model_path = '../../pretrained_weights/TencentGameMate:chinese-hubert-base'
-            if platform.system() == "Windows":
-                model_path = '../../pretrained_weights/chinese-hubert-base'
+            model_path = '../../pretrained_weights/chinese-hubert-base'
             from .hubert import HubertModel
-            self.audio_encoder = HubertModel.from_pretrained(make_abs_path(model_path))
+            self.audio_encoder = HubertModel.from_pretrained(_resolve_weights_path(model_path))
             self.audio_encoder.feature_extractor._freeze_parameters()
         else:
             raise ValueError(f'Unknown audio model {self.audio_model}!')
